@@ -1,0 +1,18 @@
+انا عايز اعرف تقسيمة الفولدرات بقا بتاعة ال express وال node js مع mongodb
+
+POST   /auth/register
+POST   /auth/login
+
+GET    /users
+GET    /users/:id
+PATCH  /users/:id
+DELETE /users/:id
+
+GET    /products
+POST   /products
+PATCH  /products/:id
+DELETE /products/:id
+
+POST   /orders
+GET    /orders
+GET    /orders/:id
