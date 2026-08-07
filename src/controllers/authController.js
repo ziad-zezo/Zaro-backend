@@ -48,8 +48,8 @@ export const registerNewUser = async (req, res) => {
     }
 }
 
-const signToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
+const signToken = (id, email) => {
+    return jwt.sign({ id: id, email: email }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN
     })
 }
@@ -74,7 +74,7 @@ export const login = async (req, res) => {
         }
 
         //generate jwt
-        const token = signToken(user._id);
+        const token = signToken(user._id,email);
 
         user.password = undefined;//to hide the passowrd from response
 
