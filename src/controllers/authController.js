@@ -1,8 +1,9 @@
 import User from '../models/User.js'
+import jwt from 'jsonwebtoken'
 
 
 
-const registerNewUser = async (req, res) => {
+export const registerNewUser = async (req, res) => {
     try {
         const { name, email, password } = req.body;
         if (!email || !name || !password) {
@@ -47,4 +48,57 @@ const registerNewUser = async (req, res) => {
     }
 }
 
-export default registerNewUser
+const signToken = (id) => {
+    return jwt.sign({ id }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRES_IN
+    })
+}
+
+export const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Please provide both email and password.'
+            });
+
+        }
+        //check if the user exist
+        const user = await User.findOne({ email: email.toLowerCase() }).select("+password");
+        if (!user || !(await user.correctPassword(password, user.password))) {
+            return res.status(401).json({
+                status: 'fail',
+                message: 'Incorrect email or password.'
+            });
+        }
+
+        //generate jwt
+        const token = signToken(user._id);
+
+        user.password = undefined;//to hide the passowrd from response
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Logged in successfully.',
+            token,
+            data: {
+                user: {
+                    id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.role
+                }
+            }
+        });
+
+
+
+
+    } catch (error) {
+        res.status(500).json({
+            status: 'error',
+            message: error.message
+        });
+    }
+}

@@ -2,7 +2,7 @@ import mongoose, { mongo } from 'mongoose'
 import bcrypt from 'bcryptjs';
 const Schema = mongoose.Schema;
 
-const UserSchema = Schema(
+const userSchema = Schema(
     {
         name: {
             type: String,
@@ -33,12 +33,16 @@ const UserSchema = Schema(
 );
 
 //hash the Password
-UserSchema.pre('save', async function (next) {
+userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
 
     const salt = await bcrypt.genSalt(12);
     this.password = await bcrypt.hash(this.password, salt);
     //next();
 });
-const User = mongoose.model("User", UserSchema);
+//check password for login
+userSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
+    return await bcrypt.compare(candidatePassword, userPassword);
+};
+const User = mongoose.model("User", userSchema);
 export default User;
