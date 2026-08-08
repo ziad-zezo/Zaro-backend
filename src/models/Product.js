@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const productSchema = new mongoose.Schema(
+const productSchema = new Schema(
     {
         name: {
             type: String,
@@ -30,7 +30,6 @@ const productSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref:'Category',
             required: [true, 'Product category is required'],
-            trim: true
         },
         stock: {
             type: Number,
@@ -49,7 +48,6 @@ const productSchema = new mongoose.Schema(
         }
     },
     {
-        // Automatically handles createdAt and updatedAt timestamps
         timestamps: true
     }
 );
