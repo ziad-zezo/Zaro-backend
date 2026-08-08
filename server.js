@@ -6,4 +6,4 @@ import connectDB from './src/config/db.js'
 connectDB();
 
 //listen for client request
-app.listen(3000,() => { console.log(`Started`);});
+app.listen(3000,() => { console.log(`Running✔️ ...`);});
