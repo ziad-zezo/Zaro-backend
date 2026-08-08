@@ -3,9 +3,9 @@ import { getUsers, getUser, updateUser, deleteUser } from '../controllers/userCo
 import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
-router.get('/',protect, getUsers);
-router.get('/:id', getUser);
-router.patch('/:id', updateUser);
-router.delete('/:id', deleteUser);
+router.get('/', protect, getUsers);
+router.get('/:id', protect, getUser);
+router.patch('/:id', protect, updateUser);
+router.delete('/:id', protect, deleteUser);
 
 export default router;
