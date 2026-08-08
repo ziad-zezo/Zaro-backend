@@ -76,5 +76,3 @@ export const deleteUser = async (req, res) => {
     }
 }
 
-
-//export default { getUsers, getUser };
