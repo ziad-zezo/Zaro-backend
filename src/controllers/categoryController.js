@@ -8,10 +8,14 @@ export const getAllCategories = async (req, res) => {
         //check if there are no category
         return res.status(200).json({
             success: 'true',
+            count: categories.length,
             data: categories,
         })
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
     }
 };
 
@@ -58,7 +62,6 @@ export const addNewCategory = async (req, res) => {
             });
         }
 
-        // Handle Mongoose validation errors
         if (error.name === 'ValidationError') {
             const messages = Object.values(error.errors).map((err) => err.message);
             return res.status(400).json({
@@ -74,3 +77,67 @@ export const addNewCategory = async (req, res) => {
         });
     }
 };
+
+export const updateCategoty = async (req, res) => {
+
+    try {
+        const categoryId = req.params.id;
+        const updateData = req.body;
+        if (!updateData || Object.keys(updateData).length === 0) {
+            return res.status(400).json({ message: "No data provided for update!" });
+        }
+
+        const updatedCategory = await Category.findByIdAndUpdate(categoryId, updateData, { new: true, runValidators: true });
+
+        //if the category does not exist
+
+        if(!updatedCategory){
+            return res.status(400).json({
+                success:false,
+                message:"Category not found"
+            })
+        }
+
+        res.status(200).json({
+            success: true,
+            data: updatedCategory
+        }
+        );
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+};
+
+export const deleteCategoy = async (req, res) => {
+    try {
+        const categoryId = req.params.id;
+        //check if the category exist
+        const category = await Category.findById(categoryId);
+        if (!category) {
+            return res.status(400).json({
+                success: false,
+                message: "Category not found"
+            });
+        }
+
+        const deletedCategory = await Category.findByIdAndDelete(categoryId);
+
+        res.status(200).json({
+            success: true,
+            data: deletedCategory
+        });
+
+
+    } catch (error) {
+
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+}
