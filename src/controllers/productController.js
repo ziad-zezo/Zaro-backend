@@ -1,3 +1,4 @@
+import Category from '../models/Category.js';
 import Product from '../models/Product.js';
 
 
@@ -36,16 +37,52 @@ export const addNewProduct = async (req, res) => {
         if (images.length === 0) {
             return res.status(500).json({
                 success: false,
-                message: "Provid at least 1 image"
+                message: "Provide at least 1 image"
             });
         }
-        return res.send("test");
-        const products = await Product.find();
-        res.status(200).json(
+        if (!price) {
+            return res.status(500).json({
+                success: false,
+                message: "Product price is required"
+            });
+        }
+        if (!stock) {
+            return res.status(500).json({
+                success: false,
+                message: "Product stock is required"
+            });
+        }
+        if (images.length === 0) {
+            return res.status(500).json({
+                success: false,
+                message: "Provide at least 1 image"
+            });
+        }
+        //check if the category exist
+        const categoryExists = await Category.findById(category);
+        if (!categoryExists) {
+            return res.status(400).json({
+                success: false,
+                message: "Product category not provided, or not found"
+            });
+        }
+
+        const newProduct = await Product.create(
+            {
+                name,
+                description,
+                price,
+                images,
+                category,
+                stock,
+                brand
+            }
+        )
+
+        res.status(201).json(
             {
                 success: true,
-                count: products.length(),
-                data: products
+                data: newProduct
             }
         )
 
