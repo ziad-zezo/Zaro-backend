@@ -12,9 +12,9 @@ app.use(express.json())
 
 app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
-app.use('/categories',categoryRoutes);
-app.use('/products',productRoutes)
-app.use('/cart',cartRoutes)
+app.use('/categories', categoryRoutes);
+app.use('/products', productRoutes)
+app.use('/cart', cartRoutes)
 app.use((err, req, res, next) => {
     // إذا كان الخطأ بسبب صيغة JSON غير صحيحة
     if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
