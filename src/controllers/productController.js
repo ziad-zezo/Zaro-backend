@@ -10,7 +10,7 @@ export const getAllProducts = async (req, res) => {
         res.status(200).json(
             {
                 success: true,
-                count: products.length(),
+                count: products.length,
                 data: products
             }
         )
@@ -18,7 +18,8 @@ export const getAllProducts = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: "Internal server error"
+            message: "Internal server error",
+            error: error.message
         });
     }
 };
