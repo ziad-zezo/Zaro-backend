@@ -19,6 +19,29 @@ export const getAllCategories = async (req, res) => {
     }
 };
 
+export const getCategory = async (req, res) => {
+    try {
+        const categoryId = req.params.id;
+        const category = await Category.findById(categoryId);
+        //check if there are no category
+        if (!category) {
+           return res.status(404).json({
+                success: false,
+                message: "Category not found"
+            });
+        }
+        return res.status(200).json({
+            success: 'true',
+            data: category,
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+};
+
 
 export const addNewCategory = async (req, res) => {
     try {
@@ -91,10 +114,10 @@ export const updateCategoty = async (req, res) => {
 
         //if the category does not exist
 
-        if(!updatedCategory){
+        if (!updatedCategory) {
             return res.status(400).json({
-                success:false,
-                message:"Category not found"
+                success: false,
+                message: "Category not found"
             })
         }
 
