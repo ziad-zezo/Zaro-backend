@@ -19,7 +19,7 @@ const CartSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: [true, 'User is required'],
-    unique: true // Each user has at most one active cart
+    unique: true 
   },
   items: [CartItemSchema]
 }, { timestamps: true });
