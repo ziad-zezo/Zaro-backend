@@ -14,7 +14,7 @@ router.route('/')
     .post(protect, createOrder);
 
 // Route: /api/orders/myorders
-router.route('/orders')
+router.route('/myorders')
     .get(protect, getMyOrders);
 
 router.route('/:id')

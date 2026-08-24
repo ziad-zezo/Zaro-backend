@@ -5,6 +5,7 @@ import categoryRoutes from './routes/categoryRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import orderRoutes from './routes/orderRoutes.js'
+import addressRoutes from './routes/addressRoutes.js'
 const port = 3000;
 const app = express();
 app.use(express.json())
@@ -17,6 +18,7 @@ app.use('/categories', categoryRoutes);
 app.use('/products', productRoutes)
 app.use('/cart', cartRoutes)
 app.use('/orders', orderRoutes)
+app.use('/addresses',addressRoutes)
 app.use((err, req, res, next) => {
     // إذا كان الخطأ بسبب صيغة JSON غير صحيحة
     if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
