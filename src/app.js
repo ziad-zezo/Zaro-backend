@@ -11,6 +11,13 @@ const app = express();
 app.use(express.json())
 
 //app._router(userRoutes);
+// Health check
+app.get('/health', (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: 'API is running'
+    });
+});
 
 app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
