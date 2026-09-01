@@ -27,7 +27,7 @@ app.use('/cart', cartRoutes)
 app.use('/orders', orderRoutes)
 app.use('/addresses',addressRoutes)
 app.use((err, req, res, next) => {
-    // إذا كان الخطأ بسبب صيغة JSON غير صحيحة
+
     if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
         return res.status(400).json({
             status: "fail",
@@ -35,7 +35,7 @@ app.use((err, req, res, next) => {
         });
     }
 
-    // لأي أخطاء أخرى عامة
+
     return res.status(err.status || 500).json({
         status: "error",
         message: err.message || "حدث خطأ في السيرفر"
